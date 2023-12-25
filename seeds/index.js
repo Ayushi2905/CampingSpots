@@ -4,7 +4,7 @@ const { places, descriptors } = require("./seedHelpers");
 const mongoose = require("mongoose");
 
 mongoose.connect(
-  "mongodb+srv://ayushisinha440:l7YymDOogjeHh6fS@yelp-cluster.9vo69ny.mongodb.net/?retryWrites=true&w=majority",
+  "mongodb+srv://ayushisinha440:password@yelp-cluster.9vo69ny.mongodb.net/?retryWrites=true&w=majority",
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
