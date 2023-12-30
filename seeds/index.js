@@ -4,7 +4,7 @@ const { places, descriptors } = require("./seedHelpers");
 const mongoose = require("mongoose");
 
 mongoose.connect(
-  "mongodb+srv://ayushisinha440:password@yelp-cluster.9vo69ny.mongodb.net/?retryWrites=true&w=majority",
+  "mongodb+srv://ayushisinha440:l7YymDOogjeHh6fS@yelp-cluster.9vo69ny.mongodb.net/?retryWrites=true&w=majority",
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
@@ -22,14 +22,20 @@ const seedDB = async () => {
   await Campground.deleteMany({});
   for (let i = 0; i < 50; i++) {
     const random1000 = Math.floor(Math.random() * 1000);
+    const price = Math.floor(Math.random() * 20) + 10;
     const camp = new Campground({
       location: `${cities[random1000].city},${cities[random1000].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
+      image: "https://source.unsplash.com/collection/483251",
+      description:
+        "camping ventures are the best kinda experiences for nature lovers!",
+      price,
     });
     await camp.save();
   }
-  const c = new Campground({ title: "purple field" });
-  await c.save();
+  // const c = new Campground({ title: "purple field" });
+  // await c.save();
+  //};
 };
 
 seedDB().then(() => {
