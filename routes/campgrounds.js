@@ -6,16 +6,25 @@ const campgrounds = require("../controllers/campgrounds");
 const Campground = require("../models/campground");
 const { isLoggedIn, isAuthor, validateCampground } = require("../middleware");
 const flash = require("connect-flash");
+const multer = require("multer");
+const { storage } = require("../cloudinary");
+const upload = multer({ storage });
 
 router
   .route("/")
   .get(catchAsync(campgrounds.index))
   .post(
     isLoggedIn,
+    upload.array("image"),
     validateCampground,
     catchAsync(campgrounds.createCampground)
   );
-
+/*
+  .post(upload.array("image"), (req, res) => {
+    console.log(req.body, req.files);
+    res.send("it worked");
+  });
+*/
 router.get("/new", isLoggedIn, campgrounds.renderNewForm);
 
 router
@@ -23,8 +32,9 @@ router
   .get(catchAsync(campgrounds.showCampground))
   .put(
     isLoggedIn,
-    validateCampground,
     isAuthor,
+    upload.array("image"),
+    validateCampground,
     catchAsync(campgrounds.updateCampground)
   )
   .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground));

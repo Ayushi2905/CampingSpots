@@ -27,10 +27,20 @@ const seedDB = async () => {
       author: "658fe70c0756009dfde262d8",
       location: `${cities[random1000].city},${cities[random1000].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
-      image: "https://source.unsplash.com/collection/483251",
+      //image: "https://source.unsplash.com/collection/483251",
       description:
         "camping ventures are the best kinda experiences for nature lovers!",
       price,
+      images: [
+        {
+          url: "https://res.cloudinary.com/dgmccrols/image/upload/v1704018175/CampSpots/ty4vrn0wful3wo2bnjtx.jpg",
+          filename: "CampSpots/ty4vrn0wful3wo2bnjtx",
+        },
+        {
+          url: "https://res.cloudinary.com/dgmccrols/image/upload/v1704018179/CampSpots/xgr6hv8wdryigyndojew.jpg",
+          filename: "CampSpots/xgr6hv8wdryigyndojew",
+        },
+      ],
     });
     await camp.save();
   }
