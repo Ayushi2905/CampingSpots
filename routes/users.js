@@ -21,6 +21,8 @@ router
     users.login
   );
 
+router.route("/user/:id").get(catchAsync(users.profile));
+
 router.get("/logout", users.logout);
 
 module.exports = router;

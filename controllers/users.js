@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const campg = require("../models/campground");
 
 module.exports.renderRegister = (req, res) => {
   res.render("users/register");
@@ -27,6 +28,20 @@ module.exports.login = (req, res) => {
   const redirectUrl = req.session.returnTo || "/campgrounds";
   delete req.session.returnTo;
   res.redirect(redirectUrl);
+};
+
+module.exports.profile = async (req, res) => {
+  console.log("we are in user profile campground");
+  const user = await User.findById(req.params.id);
+  console.log(req.params.id);
+  const campgrounds = await campg.find({});
+  console.log(campgrounds);
+  console.log(user);
+  if (!user) {
+    req.flash("error", "Cannot find that user!");
+    return res.redirect("/campgrounds");
+  }
+  res.render("users/profile", { user, campgrounds });
 };
 
 module.exports.logout = (req, res, next) => {

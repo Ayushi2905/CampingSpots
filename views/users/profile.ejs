@@ -1,0 +1,37 @@
+<% layout('layouts/boilerplate')%>
+<link rel="stylesheet" href="/stylesheets/stars.css" />
+<div><p>user details- <%= user.username%> <%= user.email %></p></div>
+
+<% for (let campground of campgrounds){ %> <%
+if(campground.author.equals(user._id)) {%>
+
+<div class="card mb-3">
+  <div class="row">
+    <div class="col-md-4">
+      <% if(campground.images.length) { %>
+      <img class="img-fluid" alt="" src="<%=campground.images[0].url%>" />
+      <% }else{ %>
+      <img
+        class="img-fluid"
+        alt=""
+        src="https://res.cloudinary.com/dgmccrols/image/upload/v1704121238/CampSpots/hekdrkluak80hxc0hroh.jpg"
+      />
+      <% }%>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%= campground.title %></h5>
+
+        <p class="card-text"><%= campground.description %></p>
+        <p class="card-text">
+          <small class="text-muted"><%= campground.description %></small>
+        </p>
+        <a class="btn btn-primary" href="/campgrounds/<%= campground._id %>"
+          >View <%= campground.title %></a
+        >
+      </div>
+    </div>
+    <% } %>
+  </div>
+</div>
+<% } %>
