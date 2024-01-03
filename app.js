@@ -17,6 +17,8 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
+const mongoSanitize = require("express-mongo-sanitize");
+//const helmet = require("helmet");
 
 const userRoutes = require("./routes/users");
 const campgroundRoutes = require("./routes/campgrounds");
@@ -39,21 +41,30 @@ app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(
+  mongoSanitize({
+    replaceWith: "_",
+  })
+);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 const sessionConfig = {
+  name: "mysession",
   secret: "thisshouldbeabettersecret!",
   resave: false,
   saveUninitialised: true,
   cookie: {
     httpOnly: true,
+    //secure:true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 };
 app.use(session(sessionConfig));
 app.use(flash());
+//app.use(helmet({ contentSecurityPolicy: false }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 //we are telling passport to use local strategy we need to specify the authentication method which was added automatically
@@ -65,20 +76,13 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
-  console.log(req.session);
+  console.log(req.query);
   res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   next();
 });
 
-/*
-app.get("/fakeUser", async (req, res) => {
-  const user = new User({ email: "ayushiii@gmail.com", username: "ayushiii" });
-  const newuser = await User.register(user, "chicken");
-  res.send(newuser);
-});
-*/
 app.use("/", userRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/reviews", reviewRoutes);
