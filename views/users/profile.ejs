@@ -3,7 +3,10 @@
 
 <div>
   <b>
-    <h2>Hi! You are viewing <%= user.username%>'s profile.</h2>
+    <h2>
+      Hi! You are viewing <%= user.username[0].toUpperCase() %><%=
+      user.username.substring(1) %>'s profile.
+    </h2>
     <h4>You can contact him at: <%= user.email %></h4>
     <br /><br />
     <h4>List of his Campgrounds -</h4>

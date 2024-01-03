@@ -43,7 +43,8 @@
           Submitted by -
           <b
             ><a href="/user/<%= campground.author._id%>"
-              ><%= campground.author.username%></a
+              ><%= campground.author.username[0].toUpperCase() %><%=
+              campground.author.username.substring(1) %></a
             ></b
           >
         </li>
