@@ -1,6 +1,15 @@
 <% layout('layouts/boilerplate')%>
 <link rel="stylesheet" href="/stylesheets/stars.css" />
-<div><p>user details- <%= user.username%> <%= user.email %></p></div>
+
+<div>
+  <b>
+    <h2>Hi! You are viewing <%= user.username%>'s profile.</h2>
+    <h4>You can contact him at: <%= user.email %></h4>
+    <br /><br />
+    <h4>List of his Campgrounds -</h4>
+    <br /><br />
+  </b>
+</div>
 
 <% for (let campground of campgrounds){ %> <%
 if(campground.author.equals(user._id)) {%>
